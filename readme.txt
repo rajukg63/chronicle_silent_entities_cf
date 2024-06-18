@@ -6,7 +6,7 @@
 gcloud auth login
 ####define your variables
 ####find your timezone timedatectl list-timezones - https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-TIME_ZONE="BQ_PROJECT_NAME"
+TIME_ZONE="America/Chicago"
 #### service account key that will be stored in the secret manager and will be used to query the BQ project
 BQ_SA="bq_sa.json"
 TIME_INTERVAL="10"
