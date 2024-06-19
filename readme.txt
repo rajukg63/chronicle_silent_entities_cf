@@ -36,11 +36,11 @@ gcloud projects add-iam-policy-binding $PROJECT_NAME --member="serviceAccount:$S
 SECRET_NAME=bq_sa
 gcloud secrets create "bq_sa" --replication-policy "automatic" --data-file=$BQ_SA
 ####download package
-git clone https://github.com/rajukg63/silent_entities
+git clone https://github.com/rajukg63/chronicle_silent_entities_cf
 ####define CF variables and create CF, if prompted, enter "n" if asked to allow unauthenticated invocations
 FUNCTION_NAME="chronicle_silent_entities"
 SERVICE_ACCOUNT="$SERVICE_ACCOUNT_NAME@$PROJECT_NAME.iam.gserviceaccount.com"
-gcloud beta functions deploy $FUNCTION_NAME --region=$FUNCTION_REGION --runtime=python39 --security-level=secure-always --trigger-http --service-account=$SERVICE_ACCOUNT --set-env-vars=FUNCTION_MINUTE_INTERVAL=$TIME_INTERVAL,SECRET_PROJECT_NAME=$PROJECT_NAME,SECRET_NAME=$SECRET_NAME,BQ_PROJECT_NAME=$BQ_PROJECT_NAME --entry-point=main --source=silent_entities_cf --timeout=540s
+gcloud beta functions deploy $FUNCTION_NAME --region=$FUNCTION_REGION --runtime=python39 --trigger-http --service-account=$SERVICE_ACCOUNT --set-env-vars=FUNCTION_MINUTE_INTERVAL=$TIME_INTERVAL,SECRET_PROJECT_NAME=$PROJECT_NAME,SECRET_NAME=$SECRET_NAME,BQ_PROJECT_NAME=$BQ_PROJECT_NAME --entry-point=main --source=chronicle_silent_entities_cf --timeout=540s
 ####define schedule variables
 HTTP_JOB="silent_entities-schedule-cloud-function"
 SCHEDULE="*/10 * * * *"
