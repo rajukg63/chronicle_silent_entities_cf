@@ -40,14 +40,14 @@ def bigquery_query(client):
 
     try:
         
-        query = "SELECT principal.hostname as gateway, MAX(metadata.event_timestamp.seconds) as maxtime, count(*) \
+        query = "SELECT principal.hostname as host, MAX(metadata.event_timestamp.seconds) as maxtime, count(*) as num_of_logs \
             FROM `datalake.events` as events \
             WHERE DATE(hour_time_bucket) > DATE_SUB(CURRENT_DATE(), INTERVAL 3 DAY) \
             group by 1 \
-            having count(*) > 10 \
+            having count(*) > 100 \
             and (unix_seconds(current_timestamp()) - maxtime ) > 60*60 \
-            ORDER BY gateway \
-            LIMIT 100"
+            ORDER BY 1 \
+            LIMIT 1000"
 
         # Execute the query
         query_job = client.query(query)
