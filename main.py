@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 import datetime
 
 SCOPES = ['https://www.googleapis.com/auth/cloud-platform']
-VERBOSE = True
+VERBOSE = False
 
 def debug(data):
     if VERBOSE:
