@@ -64,7 +64,7 @@ def bigquery_query(client):
         # Log the error for debugging
         print(f"Error executing BigQuery query: {e}")
         # Return an error response to the client
-        return json.dumps({"error": "Internal error executing BigQuery query"}), 500
+        return (json.dumps({"error": "Internal error executing BigQuery query"})+ f" {e} "), 500
 
 def main(request):
     
