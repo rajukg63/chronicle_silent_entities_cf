@@ -5,9 +5,13 @@ from google.cloud import secretmanager
 from google.cloud import bigquery
 from urllib.parse import urlencode
 import datetime
+import logging
 
 SCOPES = ['https://www.googleapis.com/auth/cloud-platform']
-VERBOSE = False
+VERBOSE = True
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler())
 
 def debug(data):
     if VERBOSE:
@@ -55,14 +59,15 @@ def bigquery_query(client):
 
         # Convert results to a list of dictionaries for JSON serialization
         rows = [dict(row) for row in results]
-
+        logging.info(f"output={json.dumps(rows)}")
+        
         # Return the results as a JSON response
         return json.dumps(rows), 200
     except KeyError:
         return json.dumps({"error": "Missing 'query' parameter in request"}), 400
     except Exception as e:
         # Log the error for debugging
-        print(f"Error executing BigQuery query: {e}")
+        logging.info(f"Error executing BigQuery query: {e}")
         # Return an error response to the client
         return (json.dumps({"error": "Internal error executing BigQuery query"})+ f" {e} "), 500
 
